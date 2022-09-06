@@ -74,7 +74,9 @@ const NUMBERS = ["1","2","3","4","5","6","7","8","9"];
 onChange = (element,event) => {
 	if(element.value !== null && element.value){
 		if(!NUMBERS.includes(element.value))
-			element.value ="";	
+			element.value ="";
+		else
+			element.style.backgroundColor = "lightgreen";
 	}
 }
 for(var row = 0; row<9; row++)
@@ -85,16 +87,21 @@ for(var row = 0; row<9; row++)
 
 reset = () => {
 	for(var row = 0; row<9; row++)
-		for(var col=0; col<9; col++)
-			document.getElementById(`${row}${col}_cell`).value = "";
+		for(var col=0; col<9; col++){
+			const element = document.getElementById(`${row}${col}_cell`);
+			element.value = "";
+			element.style.backgroundColor = "white";
+		}
 }
 
 solve = () => {
 	const board = [];
 	for(var row = 0; row<9; row++){
 		const boardRow = [];
-		for(var col=0; col<9; col++)
-			boardRow.push(document.getElementById(`${row}${col}_cell`).value || ".");
+		for(var col=0; col<9; col++){
+			const element = document.getElementById(`${row}${col}_cell`);
+			boardRow.push(element.value || ".");
+		}
 		board.push(boardRow);
 	}
 	console.log("el board",board);
