@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sudoku Solver</title>
+<style>
+.grid-container {
+	display: grid;
+	grid-template-columns: auto auto auto;
+	padding: 10px;
+}
+.even {
+	background-color: tomato;
+}
+.odd {
+	background-color: grey;
+}
+.grid-item {
+	background-color: rgba(255, 255, 255, 0.8);
+	border: 1px solid rgba(0, 0, 0, 0.8);
+	padding: 10px;
+	text-align: center;
+}
+input {
+	width: 50px;
+	height: 50px;
+	font-size: 30px;
+	text-align: center;
+}
+.button {
+	width: 100px;
+	height: 40px;
+	font-size: 20px;
+}
+</style>
+</head>
+<body>
+<h1>Simple sudoku solver by Gustavo Alzamora</h1>
+<p>Fill the sudoku board then click on solve and see the magic !!!</p>
+<form>
+<input class="button" type="button" value="Reset" onclick="reset()">
+<input class="button" type="button" value="Solve!" onclick="solve()">
+<div class="grid-container">
+	<div class="grid-container even">
+	  <div class="grid-item"><input type="text" id="00_cell" name="00_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="01_cell" name="01_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="02_cell" name="02_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="10_cell" name="10_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="11_cell" name="11_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="12_cell" name="12_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="20_cell" name="20_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="21_cell" name="21_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="22_cell" name="22_cell" value=""></div>  
+	</div>
+	<div class="grid-container odd">
+	  <div class="grid-item"><input type="text" id="03_cell" name="03_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="04_cell" name="04_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="05_cell" name="05_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="13_cell" name="13_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="14_cell" name="14_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="15_cell" name="15_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="23_cell" name="23_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="24_cell" name="24_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="25_cell" name="25_cell" value=""></div>  
+	</div>
+	<div class="grid-container even">
+	  <div class="grid-item"><input type="text" id="06_cell" name="06_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="07_cell" name="07_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="08_cell" name="08_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="16_cell" name="16_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="17_cell" name="17_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="18_cell" name="18_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="26_cell" name="26_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="27_cell" name="27_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="28_cell" name="28_cell" value=""></div>
+	</div>
+	<div class="grid-container even">
+	  <div class="grid-item"><input type="text" id="30_cell" name="30_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="31_cell" name="31_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="32_cell" name="32_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="40_cell" name="40_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="41_cell" name="41_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="42_cell" name="42_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="50_cell" name="50_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="51_cell" name="51_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="52_cell" name="52_cell" value=""></div>  
+	</div>
+	<div class="grid-container odd">
+	  <div class="grid-item"><input type="text" id="33_cell" name="33_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="34_cell" name="34_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="35_cell" name="35_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="43_cell" name="43_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="44_cell" name="44_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="45_cell" name="45_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="53_cell" name="53_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="54_cell" name="54_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="55_cell" name="55_cell" value=""></div>  
+	</div>
+	<div class="grid-container even">
+	  <div class="grid-item"><input type="text" id="36_cell" name="36_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="37_cell" name="37_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="38_cell" name="38_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="46_cell" name="46_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="47_cell" name="47_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="48_cell" name="48_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="56_cell" name="56_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="57_cell" name="57_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="58_cell" name="58_cell" value=""></div>
+	</div>
+	<div class="grid-container even">
+	  <div class="grid-item"><input type="text" id="60_cell" name="60_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="61_cell" name="61_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="62_cell" name="62_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="70_cell" name="70_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="71_cell" name="71_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="72_cell" name="72_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="80_cell" name="80_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="81_cell" name="81_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="82_cell" name="82_cell" value=""></div>  
+	</div>
+	<div class="grid-container odd">
+	  <div class="grid-item"><input type="text" id="63_cell" name="63_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="64_cell" name="64_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="65_cell" name="65_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="73_cell" name="73_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="74_cell" name="74_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="75_cell" name="75_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="83_cell" name="83_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="84_cell" name="84_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="85_cell" name="85_cell" value=""></div>  
+	</div>
+	<div class="grid-container even">
+	  <div class="grid-item"><input type="text" id="66_cell" name="66_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="67_cell" name="67_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="68_cell" name="68_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="76_cell" name="76_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="77_cell" name="77_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="78_cell" name="78_cell" value=""></div>  
+	  <div class="grid-item"><input type="text" id="86_cell" name="86_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="87_cell" name="87_cell" value=""></div>
+	  <div class="grid-item"><input type="text" id="88_cell" name="88_cell" value=""></div>
+	</div>
+</div>
+</form>
+<script src="sudoku_solver.js"></script>
+</body>
+</html>

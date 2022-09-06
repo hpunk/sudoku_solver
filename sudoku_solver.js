@@ -2,7 +2,8 @@
  * @param {character[][]} board
  * @return {void} Do not return anything, modify board in-place instead.
  */
-
+ 
+// SUDOKU SOLVER FUNCTIONS
 isRowValid = (board, x, value) => {
     return !board[x].includes(value);
 }
@@ -65,7 +66,48 @@ assignCell = (board, x, y) => {
 goBack = (board, x, y) => {
     board[x][y] = ".";
 }
+ 
+// INPUT FUNCTIONS
+//when I bind I do event,element and when it reaches the function it goes element,event
+const NUMBERS = ["1","2","3","4","5","6","7","8","9"];
 
+onChange = (element,event) => {
+	if(element.value !== null && element.value){
+		if(!NUMBERS.includes(element.value))
+			element.value ="";	
+	}
+}
+for(var row = 0; row<9; row++)
+	for(var col=0; col<9; col++){
+		const element = document.getElementById(`${row}${col}_cell`);
+		element.addEventListener("change", onChange.bind(event,element));
+	}
+
+reset = () => {
+	for(var row = 0; row<9; row++)
+		for(var col=0; col<9; col++)
+			document.getElementById(`${row}${col}_cell`).value = "";
+}
+
+solve = () => {
+	const board = [];
+	for(var row = 0; row<9; row++){
+		const boardRow = [];
+		for(var col=0; col<9; col++)
+			boardRow.push(document.getElementById(`${row}${col}_cell`).value || ".");
+		board.push(boardRow);
+	}
+	console.log("el board",board);
+	if(!assignCell(board,0,0))
+		console.log("el sudoku no se puede resolver:(");
+	else
+		for(var row = 0; row<9; row++)
+			for(var col=0; col<9; col++)
+				document.getElementById(`${row}${col}_cell`).value = board[row][col];
+	
+}
+
+/*
 var solveSudoku = function(board) {
     assignCell(board,0,0);
     console.log(board);
@@ -84,7 +126,7 @@ board = [
 
 solveSudoku(board);
 
-/*
+
 Input: board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
 Output: [["5","3","4","6","7","8","9","1","2"],["6","7","2","1","9","5","3","4","8"],["1","9","8","3","4","2","5","6","7"],["8","5","9","7","6","1","4","2","3"],["4","2","6","8","5","3","7","9","1"],["7","1","3","9","2","4","8","5","6"],["9","6","1","5","3","7","2","8","4"],["2","8","7","4","1","9","6","3","5"],["3","4","5","2","8","6","1","7","9"]]
 */
