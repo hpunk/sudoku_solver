@@ -70,14 +70,23 @@ goBack = (board, x, y) => {
 // INPUT FUNCTIONS
 //when I bind I do event,element and when it reaches the function it goes element,event
 const NUMBERS = ["1","2","3","4","5","6","7","8","9"];
+var base_cells=[];
 
 onChange = (element,event) => {
-	if(element.value !== null && element.value){
-		if(!NUMBERS.includes(element.value))
+	if(element.value !== null){
+		if(!NUMBERS.includes(element.value)){
 			element.value ="";
-		else
+			if(base_cells.includes(element.id)){
+				element.style.backgroundColor = "white";
+				base_cells = base_cells.filter(cell => cell !== element.id);
+			}
+		}
+		else{
+			base_cells.push(element.id);
 			element.style.backgroundColor = "lightgreen";
+		}
 	}
+	console.log(base_cells);
 }
 for(var row = 0; row<9; row++)
 	for(var col=0; col<9; col++){
@@ -85,13 +94,21 @@ for(var row = 0; row<9; row++)
 		element.addEventListener("change", onChange.bind(event,element));
 	}
 
+
 reset = () => {
-	for(var row = 0; row<9; row++)
+	console.log(base_cells);
+	for(var row = 0; row<9; row++){
 		for(var col=0; col<9; col++){
 			const element = document.getElementById(`${row}${col}_cell`);
 			element.value = "";
-			element.style.backgroundColor = "white";
 		}
+	}
+
+	for(const cell in base_cells){
+	console.log("el cell",cell);
+		document.getElementById(base_cells[cell]).style.backgroundColor = "white";
+	}
+	base_cells = [];
 }
 
 solve = () => {
@@ -111,8 +128,11 @@ solve = () => {
 		for(var row = 0; row<9; row++)
 			for(var col=0; col<9; col++)
 				document.getElementById(`${row}${col}_cell`).value = board[row][col];
-	
 }
+
+//when assigning the function in the html file, the var base_cells wasn't being read nor logged
+document.getElementById("solve_btn").addEventListener("click", solve.bind(event));
+document.getElementById("reset_btn").addEventListener("click", reset.bind(event));
 
 /*
 var solveSudoku = function(board) {

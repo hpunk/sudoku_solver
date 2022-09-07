@@ -37,8 +37,8 @@ input {
 <h1>Simple sudoku solver by Gustavo Alzamora</h1>
 <p>Fill the sudoku board then click on solve and see the magic !!!</p>
 <form>
-<input class="button" type="button" value="Reset" onclick="reset()">
-<input class="button" type="button" value="Solve!" onclick="solve()">
+<input class="button" id="reset_btn" type="button" value="Reset">
+<input class="button" id="solve_btn" type="button" value="Solve!">
 <div class="grid-container">
 	<div class="grid-container even">
 	  <div class="grid-item"><input type="text" id="00_cell" name="00_cell" value=""></div>
